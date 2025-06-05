@@ -1,0 +1,132 @@
+{% extends './plantilla.html' %}
+{% block contenido %}
+<br><br>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 bg-light">
+        <h1>Editar Actividad</h1>
+        <form id="frm_editar_actividad" action="/procesarEdicionActividad" enctype="multipart/form-data" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ actividad.id }}">
+
+            <label for="nombre">Nombre:</label><br>
+            <input class="form-control" type="text" name="nombre" id="nombre" value="{{ actividad.nombre }}"> <br><br>
+
+            <label for="descripcion">Descripción:</label><br>
+            <textarea class="form-control" name="descripcion" id="descripcion" rows="5">{{ actividad.descripcion }}</textarea> <br><br>
+
+            <label for="playa">Playa:</label><br>
+            <select class="form-control" name="playa" id="playa">
+                {% for playa in playas %}
+                    <option value="{{ playa.id }}" {% if playa.id == actividad.playa.id %}selected{% endif %}>
+                        {{ playa.nombre }}
+                    </option>
+                {% endfor %}
+            </select> <br><br>
+
+            <label for="imagen">Imagen:</label><br>
+            <input name="imagen" id="imagen" type="file" class="file" multiple
+                   data-show-upload="false" data-show-caption="true"
+                   data-msg-placeholder="Selecciona la imagen...">
+            <br>
+            {% if actividad.imagen %}
+                <img src="{{ actividad.imagen.url }}" alt="Imagen" width="100px" height="100px">
+            {% else %}
+                Ninguna imagen
+            {% endif %}
+            <br><br>
+
+            <label for="archivo">Documento:</label><br>
+            <input name="archivo" id="archivo" type="file" class="file" multiple
+                   data-show-upload="false" data-show-caption="true"
+                   data-msg-placeholder="Selecciona el documento...">
+            <br>
+            {% if actividad.archivo %}
+                <a href="{{ actividad.archivo.url }}" target="_blank" class="btn btn-sm btn-success">Ver PDF</a>
+            {% else %}
+                Ningún documento
+            {% endif %}
+            <br><br>
+
+            <button class="btn btn-warning" type="submit">
+                <i class="fa fa-pen"></i> Editar
+            </button>
+
+            <a class="btn btn-outline-danger" href="/actividades">
+                <i class="fa fa-times"></i> Cancelar
+            </a>
+        </form>
+        <br>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+<script>
+  $("#imagen").fileinput({
+        previewFileType: 'image',
+        browseLabel: "Examinar",
+        showUpload: false,
+        showCancel: false,
+        showRemove: true,
+        allowedFileExtensions: ["jpg", "png", "jpeg"],
+        initialPreviewAsData: true,
+        theme: 'fa5',
+        language: 'es'
+    });
+
+    $("#archivo").fileinput({
+        previewFileType: 'archivo',
+        browseLabel: "Examinar",
+        showUpload: false,
+        showCancel: false,
+        showRemove: true,
+        allowedFileExtensions: ["pdf"],
+        initialPreviewAsData: true,
+        theme: 'fa5',
+        language: 'es'
+    });
+</script>
+
+<script>
+    $("#frm_editar_actividad").validate({
+        rules:{
+            "nombre":{
+                required:true,
+                minlength:3,
+                maxlength:100
+            },
+            "descripcion":{
+                required:true
+            },
+            "playa":{
+                required:true
+            },
+            "imagen":{
+                extension: "jpg|jpeg|png"
+            },
+            "archivo":{
+                extension: "pdf"
+            }
+        },
+        messages:{
+            "nombre":{
+                required:"Este campo es obligatorio",
+                minlength:"Debe tener al menos 3 caracteres",
+                maxlength:"No puede superar los 100 caracteres"
+            },
+            "descripcion":{
+                required:"Este campo es obligatorio"
+            },
+            "playa":{
+                required:"Debe seleccionar una playa"
+            },
+            "imagen":{
+                extension: "Solo se permiten imágenes jpg, jpeg o png"
+            },
+            "archivo":{
+                extension: "Solo se permite archivo .pdf"
+            }
+        }
+    });
+</script>
+{% endblock %}

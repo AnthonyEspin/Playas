@@ -112,8 +112,8 @@
               <nav class="site-navigation position-relative text-right" role="navigation">
                 <ul class="site-menu main-menu js-clone-nav mr-auto d-none pl-0 d-lg-block">
                   <li class="active"><a href="/" class="nav-link text-left">Inicio</a></li>
-                  <li><a href="playas" class="nav-link text-left">Playas</a></li>
-                  <li><a href="actividades" class="nav-link text-left">Actividades</a></li>
+                  <li><a href="/playas" class="nav-link text-left">Playas</a></li>
+                  <li><a href="/actividades" class="nav-link text-left">Actividades</a></li>
                   <li><a href="#" class="nav-link text-left">Gestión</a></li>
                   <li><a href="#" class="nav-link text-left">Contacto</a></li>
                 </ul>
@@ -186,16 +186,42 @@
     
 
   </div>
-  {% for mensajes in messages %}
-  <script>
-    Swal.fire({
-      title: 'Notificación',
-      text: '{{ mensajes }}',
-      icon: 'success',
-      confirmButtonColor: '#3085d6'
-    });
-  </script>
-  {% endfor %}
+  <!-- Mensajes de confirmación -->
+   {% if messages %}
+      {% for mensaje in messages %}
+         <script>
+            Swal.fire({
+               title: "CONFIRMACIÓN",
+               text: "{{mensaje}}",
+               icon: "success"
+            });
+         </script>
+      {% endfor %}
+   {% endif %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+         const botonesEliminar = document.querySelectorAll('.btn-eliminar');
+         botonesEliminar.forEach(function (boton) {
+            boton.addEventListener('click', function (e) {
+               e.preventDefault();
+               const url = this.getAttribute('href');
+               Swal.fire({
+                  title: "¿Estás seguro?",
+                  text: "¡No podrás revertir esto!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Sí, eliminarlo"
+               }).then((result) => {
+                  if (result.isConfirmed) {
+                     window.location.href = url;
+                  }
+               });
+            });
+         });
+      });
+   </script>
 
   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
