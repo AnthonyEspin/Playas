@@ -1,3 +1,58 @@
 {% extends './plantilla.html' %}
 {% block contenido %}
+<div class="site-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-md-7 text-center">
+        <span class="text-serif text-primary">Playas</span>
+        <h3 class="heading-92913 text-black text-center">Playas y Actividades Acuáticas</h3>
+      </div>
+    </div>
+
+    <!-- Listado de Playas con Actividades -->
+    <div class="row">
+      <!-- Repetir este bloque por cada playa -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="service-39381">
+          <img src="images/playa_1.jpg" alt="Playa" class="img-fluid">
+          <div class="p-4">
+            <h3><span class="icon-room mr-1 text-primary"></span> Playa Santa Clara</h3>
+            <ul>
+              <li>🏄 Surf</li>
+              <li>🚣 Kayak</li>
+              <li>🤿 Buceo</li>
+            </ul>
+            <div class="d-flex mt-3 justify-content-between">
+              <a href="#" class="btn btn-sm btn-primary">Añadir Actividad</a>
+              <a href="#" class="btn btn-sm btn-warning">Editar</a>
+              <a href="#" class="btn btn-sm btn-danger">Eliminar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Otra Playa -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="service-39381">
+          <img src="images/playa_2.jpg" alt="Playa" class="img-fluid">
+          <div class="p-4">
+            <h3><span class="icon-room mr-1 text-primary"></span> Playa El Murciélago</h3>
+            <ul>
+              <li>🏄 Paddle Board</li>
+              <li>🛶 Kayak</li>
+            </ul>
+            <div class="d-flex mt-3 justify-content-between">
+              <a href="#" class="btn btn-sm btn-primary">Añadir Actividad</a>
+              <a href="#" class="btn btn-sm btn-warning">Editar</a>
+              <a href="#" class="btn btn-sm btn-danger">Eliminar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Más playas se pueden agregar aquí -->
+    </div>
+  </div>
+</div>
+
 {% endblock %}

@@ -1,0 +1,81 @@
+{% extends './plantilla.html' %}
+{% block contenido %}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 bg-light">
+        <h1>Nueva Playa</h1>
+        <form action="/guardarPlaya" id="frm_nueva_playa" method="post">
+            {% csrf_token %}
+
+            <label for="">Nombre:</label><br>
+            <input placeholder="Ingrese el nombre de la playa" class="form-control" type="text" name="nombre" id="nombre"> <br><br>
+
+            <label for="">Ubicación:</label><br>
+            <input placeholder="Ubicación de la playa" class="form-control" type="text" name="ubicacion" id="ubicacion"> <br><br>
+
+            <label for="">Descripción:</label><br>
+            <textarea placeholder="Descripción de la playa" class="form-control" name="descripcion" id="descripcion" rows="4"></textarea> <br><br>
+
+            <button type="button" class="btn btn-success" onclick="confirmarGuardado()">Guardar</button>
+            <a class="btn btn-outline-danger" href="/playas">Cancelar</a>
+        </form>
+        <br>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+<script>
+function confirmarGuardado() {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Deseas guardar esta Playa?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('frm_nueva_playa').submit();
+        }
+    });
+}
+</script>
+<!-- Validación con jQuery -->
+<script>
+    $("#frm_nueva_playa").validate({
+        rules:{
+            "nombre":{
+                required:true,
+                minlength:3,
+                maxlength:100
+            },
+            "ubicacion":{
+                required:true,
+                minlength:3,
+                maxlength:150
+            },
+            "descripcion":{
+                required:true,
+                minlength:5
+            }
+        },
+        messages:{
+            "nombre":{
+                required:"Este campo es obligatorio",
+                minlength:"Debe tener al menos 3 caracteres",
+                maxlength:"No puede superar los 100 caracteres"
+            },
+            "ubicacion":{
+                required:"Este campo es obligatorio",
+                minlength:"Debe tener al menos 3 caracteres",
+                maxlength:"No puede superar los 150 caracteres"
+            },
+            "descripcion":{
+                required:"Este campo es obligatorio",
+                minlength:"Debe tener al menos 5 caracteres"
+            }
+        }
+    });
+</script>
+{% endblock %}
