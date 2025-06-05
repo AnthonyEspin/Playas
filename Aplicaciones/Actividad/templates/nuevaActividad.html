@@ -1,0 +1,114 @@
+{% extends './plantilla.html' %}
+{% block contenido %}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 bg-light">
+        <h1>Nueva Actividad</h1>
+        <form action="/guardarActividad" id="frm_nueva_actividad" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            
+            <label for="nombre">Nombre:</label><br>
+            <input placeholder="Ingrese el nombre de la actividad" class="form-control" type="text" name="nombre" id="nombre"><br><br>
+            
+            <label for="descripcion">Descripción:</label><br>
+            <textarea placeholder="Descripción de la actividad" class="form-control" name="descripcion" id="descripcion" rows="4"></textarea><br><br>
+            
+            <label for="playa">Playa relacionada:</label>
+            <select class="form-control" name="playa" id="playa">
+                <option value="">Seleccione una playa</option>
+                {% for playa in playas %}
+                    <option value="{{ playa.id }}">{{ playa.nombre }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="imagen">Imagen representativa:</label>
+            <input name="imagen" id="imagen" type="file" class="file"
+                data-show-upload="false" data-show-caption="true"
+                data-msg-placeholder="Selecciona una imagen para subir"><br>
+
+            <label for="archivo">Archivo adicional:</label>
+            <input name="archivo" id="archivo" type="file" class="file"
+                data-show-upload="false" data-show-caption="true"
+                data-msg-placeholder="Selecciona un archivo para subir"><br>
+
+            <button class="btn btn-success" type="submit">Guardar</button>
+            <a class="btn btn-outline-danger" href="/actividades">Cancelar</a>
+        </form>
+        <br>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+<!-- FileInput Config -->
+<script>
+    $("#imagen").fileinput({
+        previewFileType: 'image',
+        browseLabel: "Examinar",
+        showUpload: false,
+        showCancel: false,
+        showRemove: true,
+        allowedFileExtensions: ["jpg", "png", "jpeg"],
+        initialPreviewAsData: true,
+        theme: 'fa5',
+        language: 'es'
+    });
+
+    $("#archivo").fileinput({
+        previewFileType: 'archivo',
+        browseLabel: "Examinar",
+        showUpload: false,
+        showCancel: false,
+        showRemove: true,
+        allowedFileExtensions: ["pdf"],
+        initialPreviewAsData: true,
+        theme: 'fa5',
+        language: 'es'
+    });
+</script>
+
+<!-- Validación con jQuery -->
+<script>
+    $("#frm_nueva_actividad").validate({
+        rules:{
+            "nombre":{
+                required:true,
+                minlength:5,
+                maxlength:100
+            },
+            "descripcion":{
+                required:true
+            },
+            "playa":{
+                required:true
+            },
+            "imagen": {
+                required: true
+            },
+            "archivo": {
+                required: true,
+                extension: "pdf"
+            }
+        },
+        messages:{
+            "nombre":{
+                required:"Este campo es obligatorio",
+                minlength:"Debe tener al menos 5 caracteres",
+                maxlength:"No puede superar los 100 caracteres"
+            },
+            "descripcion":{
+                required:"Este campo es obligatorio"
+            },
+            "playa":{
+                required:"Debe seleccionar una playa"
+            },
+            "imagen": {
+                required: "Debe subir una imagen representativa"
+            },
+            "archivo": {
+                required: "Debe subir un archivo en PDF",
+                extension: "Solo se permite archivo .pdf"
+            }
+        }
+    });
+</script>
+{% endblock %}
