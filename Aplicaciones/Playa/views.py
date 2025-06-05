@@ -1,3 +1,58 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Playa
+from django.contrib import messages
 
-# Create your views here.
+def Inicio(request):
+    return render(request, "index.html")
+
+# Listar todas las playas
+def inicioPlayas(request):
+    playas = Playa.objects.all()
+    return render(request, "inicio.html", {"playas": playas})
+
+# Formulario para nueva playa
+def nuevaPlaya(request):
+    return render(request, "nueva_playa.html")
+
+# Guardar nueva playa
+def guardarPlaya(request):
+    nombre = request.POST["nombre"]
+    ubicacion = request.POST["ubicacion"]
+    descripcion = request.POST["descripcion"]
+
+    Playa.objects.create(
+        nombre=nombre,
+        ubicacion=ubicacion,
+        descripcion=descripcion
+    )
+
+    messages.success(request, "Playa guardada exitosamente.")
+    return redirect('/playas')
+
+# Eliminar playa por ID
+def eliminarPlaya(request, id):
+    playa = get_object_or_404(Playa, id=id)
+    playa.delete()
+    messages.success(request, "Playa eliminada exitosamente.")
+    return redirect('/playas')
+
+# Mostrar formulario de edición
+def editarPlaya(request, id):
+    playa = get_object_or_404(Playa, id=id)
+    return render(request, "editar_playa.html", {"playa": playa})
+
+# Procesar edición de playa
+def procesarEdicionPlaya(request):
+    id = request.POST["id"]
+    nombre = request.POST["nombre"]
+    ubicacion = request.POST["ubicacion"]
+    descripcion = request.POST["descripcion"]
+
+    playa = get_object_or_404(Playa, id=id)
+    playa.nombre = nombre
+    playa.ubicacion = ubicacion
+    playa.descripcion = descripcion
+
+    playa.save()
+    messages.success(request, "Playa actualizada exitosamente.")
+    return redirect('/playas')
