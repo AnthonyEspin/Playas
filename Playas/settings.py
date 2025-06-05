@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-y$)z7-87)n*jzu5x(^*+41!eu_0z&@xd9uqr9xs#tgt$i)fjkt
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Aplicaciones.Playa',
 ]
 
 MIDDLEWARE = [
@@ -102,9 +103,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Guayaquil'
 
 USE_I18N = True
 
@@ -115,8 +116,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_URLPLAYA = 'Playa/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+MEDIA_URL='/media/'
+MEDIA_ROOT=(os.path.join(BASE_DIR,'Playa/media/'))
