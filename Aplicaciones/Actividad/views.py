@@ -7,7 +7,7 @@ import os
 # Listado de actividades
 def inicioActividades(request):
     actividades = Actividad.objects.all()
-    return render(request, "listadoActividades.html", {"actividades": actividades})
+    return render(request, "inicio_act.html", {"actividades": actividades})
 
 # Formulario nueva actividad
 def nuevaActividad(request):
